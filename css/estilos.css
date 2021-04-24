@@ -1,7 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Poppins&family=Roboto:wght@300&display=swap');
+
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+body{
+    font-family: 'Inconsolata', monospace;
+
 }
 img{
     display: block;
@@ -16,6 +22,7 @@ img{
     font-size: 2.5em;
     margin: 10px 0;
     color: #454546;
+    font-family: 'Poppins', sans-serif;
 }
 .main-nav{
     display: none;
@@ -43,6 +50,9 @@ img{
 .main-header__input{
     display: block;
     padding: 10px;
+}
+.main{
+    padding: 0 20px;
 }
 .slide{
     margin: 50px 0;
@@ -99,4 +109,44 @@ z-index: 3;
 .slider__txt{
 margin: 5px 0;
 
+}
+/* Estilos de productos */
+.container-productos{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
+}
+.product{
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+.product::before{
+    content: "Now";
+    background: #FF4E00;
+    padding: 10px;
+    width: 60px;
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    transform: rotate(-90deg);
+    color: white;
+
+}
+.product__title{
+    text-align: center;
+}
+.product__price{
+color: #FF4E00;
+font-weight: bold;
+}
+.product__icon{
+    display: block;
+    margin-top: 10px;
+}
+.product__img{
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
 }
