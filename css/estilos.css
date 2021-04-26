@@ -24,8 +24,41 @@ img{
     color: #454546;
     font-family: 'Poppins', sans-serif;
 }
+/* ESTILOS DE MENU */
 .main-nav{
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s;
+    z-index: 999999;
+}
+.menu{
+    position: absolute;
+    top: 205px;
+    left: 0;
+    background: #212121;
+    width: 100%;
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+    padding: 0;
+}
+.menu__item{
+    padding: 20px;
+    text-align: center;
+}
+.menu__link{
+    color: white;
+    text-decoration: none;
+    position: relative;
+    display: block;
+}
+.menu__link:hover{
+    background: white;
+    color: #212121;
+}
+.mostrar{
+    opacity: 1;
+    visibility: visible;
 }
 .main-header__container{
     display: flex;
@@ -37,7 +70,7 @@ img{
     border: 1px solid #454546;
     display: block;
     padding: 10px 20px;
-    
+    margin-left: auto;
 
 }
 .main-header__btn{
@@ -57,7 +90,6 @@ img{
 }
 .slide{
     margin: 50px 0;
-   
     overflow: hidden;
     position: relative;
     
@@ -102,6 +134,11 @@ img{
     width: 150px;
     margin: 10px auto;
 z-index: 3;
+}
+.btn__shop:hover{
+    background: #FF4E00;
+    color: white;
+    transition: all 0.5s;
 }
 .slider__title{
     font-size: 2.2em;
@@ -156,6 +193,9 @@ font-weight: bold;
 
 }
 /* testimonial */
+#slider__testimonial{
+    height: 250px;
+}
 #slider__testimonial::before{
     display: none;
 }
@@ -233,6 +273,9 @@ font-weight: bold;
 .tip .btn__shop{
     color: #333;
 }
+.btn__shop:hover{
+    color: white;
+}
 /* Footer */
 .main-footer{
     background: #151515;
@@ -267,3 +310,21 @@ font-weight: bold;
 }
 
 /* MEDIA QUERIES TABLET */
+@media screen and (min-width:768px){
+    .carousel-inner{
+        height: 400px;
+    }
+    .editor__item{
+        height: 250px;
+    }
+    #slider__testimonial{
+        height: 300px;
+    }
+}
+
+/* MEDIA QUERIES PARA WEB */
+@media screen and (min-width:1024px){
+    .icon-menu{
+        display: none;
+    }
+}
