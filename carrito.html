@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proyecto-Tienda Virtual(Ezequiel_Ramirez)-CoderHouse</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="shortcut icon" href="img/lente1.jpg" type="image/x-icon" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="container container--flex">
+        <div class="main-header__container">
+          <h1 class="main-header__title">GAFAS</h1>
+          <span class="icon-menu" id="btn-menu"
+            ><i class="fas fa-bars"></i
+          ></span>
+          <nav class="main-nav" id="main-nav">
+            <ul class="menu">
+              <li class="menu__item">
+                <a href="" class="menu__link">INICIO</a>
+              </li>
+              <li class="menu__item">
+                <a href="" class="menu__link">NOSOTROS</a>
+              </li>
+              <li class="menu__item">
+                <a href="" class="menu__link">HISTORIA</a>
+              </li>
+              <li class="menu__item"><a href="" class="menu__link">SHOP</a></li>
+              <li class="menu__item">
+                <a href="" class="menu__link">CONTACTO</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="main-header__container">
+          <span class="main-header__txt">Ayuda</span>
+          <p class="main-header_txt">
+            <i class="fas fa-phone"></i> Tel 123456789
+          </p>
+        </div>
+        <div class="main-header__container">
+          <a href="" class="main-header__link"><i class="fas fa-user"></i></a>
+          <a href="" class="main-header__btn"
+            >Mi Carro <i class="fas fa-shopping-cart"></i
+          ></a>
+          <input
+            type="search"
+            class="main-header__input"
+            placeholder="Buscar productos"
+          /><i class="fas fa-search"></i>
+        </div>
+      </div>
+    </header>
+      <main class="main-2">
+      <!-- Tabla de Productos en Carrito -->
+      <!-- Fin de tabla de productos en Carrito -->
+      <section class="container-fluid container__banner">
+        <a href="index.html">INICIO</a>
+        <P>CARRITO</P>
+
+      </section>
+      <section class="container">
+        <h2>Carrito</h2>
+        <h4>Tu carro de compras tiene: </h4><span class="contador"></span>
+        <table class="tabla">
+          <thead class="encabezado">
+            <tr>
+              <th>ID N°</th>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Nombre de producto</th>
+              <th>Precio</th>
+              <th>Remover</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>1</th>
+              <th>foto</th>
+              <th>nombre</th>
+              <th>cantidad</th>
+              <th>precio</th>
+              <th>remover</th>
+
+            </tr>
+          </tbody>
+
+        </table>
+        <div class="container-fluid " id="datos">
+          <div class="row">
+          <div class="col-md-4" id="detalle">
+            <h4>Detalle del Importe</h4>
+            <ul class="lista_importe">
+              <li class="lista_importe__detalle">Producto -> <span>$</span></li>
+              <li class="lista_importe__total">Total =<span>$</span></li>
+            </ul>
+          </div>
+          <div class="col-md-8 " id="form">
+            <h4>Datos de Envío</h4>
+            
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido">
+            <label for="tel">Teléfono:</label>
+            <input type="tel" id="tel">
+            <label for="lugar">Dirección:</label>
+            <input type="text" id="lugar">
+            <button>Enviar a esta dirección</button>
+
+          </div>
+        </div>
+      </div>
+      </section>
+<button id="btnPago">Pagar</button>
+    
+    </main>
+    <footer class="main-footer">
+      <div class="footer_section">
+        <h2 class="footer__title">Sobre Nosotros</h2>
+        <p class="footer__txt">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
+          accusantium reiciendis quidem ipsum voluptate veniam autem excepturi
+          nulla fugit est.
+        </p>
+      </div>
+      <div class="footer_section">
+        <h2 class="footer__title">Ubicación:</h2>
+        <p class="footer__txt">Buenos Aires, Argentina.</p>
+        <h2 class="footer__title">Contacto</h2>
+        <p class="footer__txt">Tel: 011 5555-5555</p>
+        <p class="footer__txt">Email: ezequielram@gmail.com</p>
+      </div>
+      <div class="footer_section">
+        <h2 class="footer__title">Quick Link</h2>
+        <a class="footer__link" href="">Inicio</a>
+        <a class="footer__link" href="">Nosotros</a>
+        <a class="footer__link" href="">Shop</a>
+        <a class="footer__link" href="">Contacto</a>
+        <a class="footer__link" href="">Error</a>
+      </div>
+      <div class="footer_section">
+        <h2 class="footer__title">Registro para ofertas</h2>
+        <p class="footer__txt">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam sit
+          unde dolorum modi magnam omnis.
+        </p>
+        <input
+          class="footer__input"
+          type="email"
+          placeholder="Ingresa tu Email"
+        />
+      </div>
+      <p class="copy">
+        2021 Gafas. Todos los derechos reservados | Diseño por Ezequiel Ramirez.
+      </p>
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+      integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+      integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/menu.js"></script>
+  </body>
+</html>
