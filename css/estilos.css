@@ -154,7 +154,7 @@ margin: 5px 0;
 
 }
 /* Estilos de productos */
-.container-productos{
+#container-productos{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
@@ -164,6 +164,9 @@ margin: 5px 0;
     padding: 20px;
     text-align: center;
     position: relative;
+}
+.product button{
+    border: none;
 }
 .product::before{
     content: "Now";
@@ -184,6 +187,7 @@ margin: 5px 0;
 color: #FF4E00;
 font-weight: bold;
 }
+
 .product__icon{
     display: block;
     margin-top: 10px;
@@ -503,7 +507,7 @@ margin-left: auto;
         background: #333;
         color: white;
     }
-    .container-productos{
+    #container-productos{
         
         grid-template-columns: repeat(4, 1fr);
         grid-gap: 15px;

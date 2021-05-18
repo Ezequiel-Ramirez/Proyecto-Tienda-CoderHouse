@@ -133,8 +133,8 @@
       <!-- Grid de Productos -->
       <div class="container">
         <h2 class="main-title">Nuevos Ingresos para vos</h2>
-        <section class="container-productos">
-          <div class="product">
+        <section id="container-productos">
+          <!-- <div class="product">
             <img src="img/lente1.jpg" alt="lente 1" class="product__img" />
             <div class="product__description">
               <h3 class="product__title">Stady</h3>
@@ -165,7 +165,7 @@
               <span class="product__price">$500</span>
             </div>
             <i class="product__icon fas fa-cart-plus"></i>
-          </div>
+          </div> -->
         </section>
 
         <!-- Fin Grid productos -->
@@ -266,6 +266,63 @@
           <a href="" class="btn__shop">COMPRAR AHORA</a>
         </div>
       </section>
+
+      <!-- Inicio sección Carrito -->
+      <section class="container">
+        <h2>Carrito</h2>
+        <h4>Tu carro de compras tiene: </h4><span class="contador"></span>
+        <table class="tabla">
+          <thead class="encabezado">
+            <tr>
+              <th>ID N°</th>
+              <th>Producto</th>
+              <th>Nombre de producto</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Remover</th>
+            </tr>
+          </thead>
+          <tbody >
+            <tr id="filaDeSeleccionados">
+              <!-- <th>1</th>
+              <th>foto</th>
+              <th>nombre</th>
+              <th>precio</th>
+              <th>cantidad</th>
+              <th>remover</th> -->
+              
+            </tr>
+          </tbody>
+
+        </table>
+        <div class="container-fluid " id="datos">
+          <div class="row">
+          <div class="col-md-4" id="detalle">
+            <h4>Detalle del Importe</h4>
+            <ul id="listaImporte">
+             
+              
+            </ul>
+          </div>
+          <div class="col-md-8 " id="form">
+            <h4>Datos de Envío</h4>
+            
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido">
+            <label for="tel">Teléfono:</label>
+            <input type="tel" id="tel">
+            <label for="lugar">Dirección:</label>
+            <input type="text" id="lugar">
+            <button>Enviar a esta dirección</button>
+
+          </div>
+        </div>
+      </div>
+      <button id="btnPago">Pagar</button>
+      </section>
+      <!-- Fin sección Carrito -->
     </main>
     <footer class="main-footer">
       <div class="footer_section">
@@ -318,6 +375,8 @@
       integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
       crossorigin="anonymous"
     ></script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/menu.js"></script>
   </body>
 </html>
