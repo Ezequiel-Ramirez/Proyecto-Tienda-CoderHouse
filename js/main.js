@@ -1,22 +1,21 @@
 
-class Lentes{
-    constructor(datos){
+class Lentes {
+    constructor(datos) {
         this.id = parseInt(datos.id);
-        
         this.nombre = datos.nombre;
         this.orientacion = datos.orientacion;
         this.tipo = datos.tipo;
         this.precio = parseFloat(datos.precio);
         this.vendido = false;
     }
-    
+
     // METODO PARA VENDER EL PRODUCTO
-    vender(){
+    vender() {
         this.vendido = true;
         return this.vendido;
     }
     // METODO PARA VERIFICAR QUE EL PRODUCTO ESTE DISPONIBLE PARA LA VENTA
-    estaDisponible(){
+    estaDisponible() {
         return this.vendido;
     }
 }
@@ -28,13 +27,13 @@ for (const objeto of DATOS) {
 
 //VARIABLES
 
-let sumaTotal = 0;
+let sumaParcial = 0;
 const PREFIJO = "productoID";
 
 //FUNCIONES MATEMATICAS
-const multiplicacion = (a,b) => a * b;
+const multiplicacion = (a, b) => a * b;
 const iva = a => a * 0.21;
-const desc = a => a -(a * 0.1);
+const desc = a => a - (a * 0.1);
 const rec = a => a + (a * 0.1);
 
 //MUESTRO LOS PRUDUCTOS POR DOM
@@ -48,8 +47,9 @@ for (const lente of DATOS) {
 let botones = document.getElementsByClassName("btnCompra");
 console.log(botones);
 for (const boton of botones) {
-   
     boton.onclick = manejadorCompra;
+
+
 }
 
 const CARRITO = [];
@@ -62,35 +62,86 @@ function manejadorCompra(evento) {
     //Incluyo en el carrito los productos seleccionados
     console.log(seleccionado);
     console.log(producto);
-    //CARRITO.push(producto);
-    //console.log(CARRITO);
+    CARRITO.push(producto);
+    console.log(CARRITO);
+    generarSalida(CARRITO);
     
+    
+
 }
+function generarSalida(productos) {
+    let body = document.getElementById("tabla").children[1];
+    let inner = "";
+    let padreUl = document.getElementById("listaImporte");
+    let lista = "";
+    for (const producto of productos) {
+        inner += `<tr><td>${producto.id}</td><td>${producto.img}</td><td>${producto.nombre}</td><td>${producto.precio}</td><td><input type="number" id="cantidad" min="1" max="5" value="1"></td></tr>`;
+        /* listado en detalle */
+
+        lista += ` <li>Producto -> ${producto.nombre}
+    <span>$ ${producto.precio * 1}</span></li>
+     `;
+     /* suma parcial del total gastado */
+     sumaParcial += producto.precio;
+        }
+    body.innerHTML = inner;
+    padreUl.innerHTML = lista;
+    
+};
+
+//FUNCION PARA SUMA TOTAL DE IMPORTE
+//MUESTRO LA SUMA TOTAL EN UL
+let padre2Ul = document.getElementById("importeTotal");
+function funcionImporteTotal(dato) {
+    let nuevoli = document.createElement("li");
+    nuevoli.innerHTML =
+     `Total=
+        <span>$  ${dato}</span>
+        `;
+        padre2Ul.appendChild(nuevoli);
+    }
+    
+   
+funcionImporteTotal(sumaParcial);
+
+/* function generarSalida(productos) {
+    
+    for (const producto of productos) {
+        
+       agregarCarroId(producto) +
+        agregarCarroFoto(producto)+
+        agregarCarroNombre(producto)+
+        agregarCarroPrecio(producto)+
+        //agregarCarroCantidad(producto); 
+       // funcionDeImporte(producto);
+        funcionImporteTotal(sumaTotal);
+        
+    }
+    
+} */
 
 //funcion para crear en elemento del DOM
-function crearElemento(dato){
-let nuevoElemento = document.createElement("div");
-//asigno un id al div
-nuevoElemento.id = PREFIJO+dato.id;
-//asigno una clase
-nuevoElemento.classList.add("product");
-//creo la plantilla del contenido
-nuevoElemento.innerHTML = `<img src="img/lente1.jpg" alt="lente 1" class="product__img" />
+function crearElemento(dato) {
+    let nuevoElemento = document.createElement("div");
+    //asigno un id al div
+    nuevoElemento.id = PREFIJO + dato.id;
+    //asigno una clase
+    nuevoElemento.classList.add("product");
+    //creo la plantilla del contenido
+    nuevoElemento.innerHTML = `<img src="img/lente1.jpg" alt="lente 1" class="product__img" />
 <div class="product__description">
   <h3 class="product__title">${dato.nombre}</h3>
   <span class="product__price">$ ${dato.precio}</span>
 </div>
-<button id="${dato.id}" class="btnCompra"><i  class="product__icon fas fa-cart-plus" ></i></button>
+<button id="${dato.id}" class="btnCompra">COMPRAR</button>
 `;
 
-//agrego cada nodo creado al padre
-contenedorProduct.appendChild(nuevoElemento);
+    //agrego cada nodo creado al padre
+    contenedorProduct.appendChild(nuevoElemento);
 
-};
+}
 
 
-//carrito.push(DATOS.find(x => x.nombre === eleccion));
-//console.log(carrito);
 
 
 //NOTIFICAR DISPONIBILIDAD POR CONSOLA
@@ -104,11 +155,7 @@ contenedorProduct.appendChild(nuevoElemento);
 } */
 /* Inicio carrito */
 
-
-
-
-
-let padreSelecciones = document.getElementById("filaDeSeleccionados");
+/* let padreSelecciones = document.getElementById("filaDeSeleccionados");
 //CREO FUNCION PARA AGREGAR AL CARRITO UN PRODUCTO
 function agregarCarroId(prod) {
     let celda1 = document.createElement("th");
@@ -133,9 +180,27 @@ function agregarCarroPrecio(prod) {
     celda4.classList.add('prodPrecio');
     celda4.innerHTML = `${prod.precio}`;
     padreSelecciones.appendChild(celda4);
-}  
-    
-    
+}   */
+//function agregarCarroCantidad(prod) {
+//  let celda5 = document.createElement("th");
+//  celda5.classList.add('prodCantidad');
+//  celda5.innerHTML = `${cantidad}`;
+//  padreSelecciones.appendChild(celda5);
+//} 
+//FUNCION PARA MOSTRAR SU IMPORTE A ABONAR
+//MUESTRO LA SELECCIÓN POR HTML EN UL
+//function funcionDeImporte(dato){
+//    let padreUl = document.getElementById("listaImporte");
+//   let lista = document.createElement("li");
+//   lista.classList.add("lista_importe__detalle");
+//   lista.innerHTML = ` Producto -> ${dato.nombre}
+//   <span>$ ${dato.precio * cantidad}</span>
+//                       `;
+//   padreUl.appendChild(lista);
+//   sumaTotal += (dato.precio*cantidad);
+//  }   
+
+
 
 //MUESTRO LA SELECCIÓN POR HTML
 //agregarCarroId(encontrado);
@@ -156,24 +221,11 @@ contenedor2.innerHTML = ` <h2>Lente: ${encontrado.id} </h2>
 `;
 padreSelecciones.appendChild(contenedor2); */
 
-/* alert("PRODUCTO SELECCIONADO: \n" +"Sexo: " +  encontrado.orientacion + "\nUso: "+ encontrado.tipo); */
-    
-//SELECCIONO CANTIDAD
-let cantidad = parseInt(prompt("Ingrese la cantidad a comprar (de 1 a 5): "));
 
-while (cantidad < 1 || cantidad > 5){
-    cantidad = parseInt(prompt("Ingrese la cantidad a comprar (de 1 a 5): "));
-}
 
-function agregarCarroCantidad(prod) {
-    let celda5 = document.createElement("th");
-    celda5.classList.add('prodCantidad');
-    celda5.innerHTML = `${cantidad}`;
-    padreSelecciones.appendChild(celda5);
-} 
-agregarCarroCantidad(cantidad); 
+//agregarCarroCantidad(cantidad); 
  //OPERACIONES
- /* operaciones */
+/* operaciones */
 /* let efectivo = multiplicacion(desc((encontrado.precio) + iva(encontrado.precio)),  cantidad);
 console.log("Costo en efectivo:");
 console.log(efectivo);
@@ -182,34 +234,13 @@ console.log("Costo en un pago:");
 console.log(unPago);
 let recargo = multiplicacion(rec((encontrado.precio) + iva(encontrado.precio)),  cantidad);
 console.log("Costo con tarjeta:");
-console.log(recargo); */
+console.log(recargo);
+*/
 
-//FUNCION PARA MOSTRAR SU IMPORTE A ABONAR
-//MUESTRO LA SELECCIÓN POR HTML EN UL
-function funcionDeImporte(dato){
-let padreUl = document.getElementById("listaImporte");
-let lista = document.createElement("li");
-lista.classList.add("lista_importe__detalle");
-lista.innerHTML = ` Producto -> ${dato.nombre}
-<span>$ ${dato.precio * cantidad}</span>
-                    `;
-padreUl.appendChild(lista);
-sumaTotal += (dato.precio*cantidad);
-}
-//funcionDeImporte(encontrado);
 
-//FUNCION PARA SUMA TOTAL DE IMPORTE
-//MUESTRO LA SUMA TOTAL EN UL
-function funcionImporteTotal(dato){
-    let padreUl = document.getElementById("listaImporte");
-    let lista = document.createElement("li");
-    lista.classList.add("lista_importe__total");
-    lista.innerHTML = ` Total=
-    <span>$ ${dato}</span>
-                        `;
-    padreUl.appendChild(lista);
-    }
-    funcionImporteTotal(sumaTotal);
+
+
+
 /* Fin Carrito */
 
 /* function funcionDeImporteUnpago(dato){
@@ -243,13 +274,13 @@ padreSelecciones.appendChild(contenedor2);
 
 
 //MODIFICAR PRODUCTO A VENDIDO= TRUE
- /* for (const iterador of productos) {
-    if (iterador === producto){
-        iterador.vender(); */
-        /* console.log("El producto ahora se encuentra vendido (true)");
-        console.log(iterador); */
+/* for (const iterador of productos) {
+   if (iterador === producto){
+       iterador.vender(); */
+/* console.log("El producto ahora se encuentra vendido (true)");
+console.log(iterador); */
   //  }
-    
+
 //}
 //NOTIFICAR DISPONIBILIDAD POR CONSOLA
 /* for (const iterador of productos) {
@@ -258,7 +289,7 @@ padreSelecciones.appendChild(contenedor2);
         console.log("El producto se encuentra  ahora vendido (true)? ");
         console.log(iterador);
     }
-    
+
 }
  */
 //alert("GRACIAS POR TU COMPRA");

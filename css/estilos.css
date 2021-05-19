@@ -192,7 +192,7 @@ font-weight: bold;
     display: block;
     margin-top: 10px;
 }
-.product:hover .product__icon{
+.product:hover .btnCompra{
     color: #ff4e00;
 }
 .product__img{
@@ -348,7 +348,7 @@ font-weight: bold;
     border-right:1px solid #F7F7F7;
 }
 /* tabla */
-.tabla{
+#tabla{
     width: 100%;
     height: auto;
     border: 1px solid #ccc;
@@ -356,7 +356,10 @@ font-weight: bold;
     padding: 20px;
     margin: 10px 0;
 }
-.tabla thead, #form button, #btnPago{
+#tabla input{
+    text-align: center;
+}
+#tabla thead, #form button, #btnPago{
     background-color: #212121;
     color: white;
 }
@@ -388,7 +391,7 @@ font-weight: bold;
     width: 100px;
     float: right;
 }
-#detalle ul li:last-child{
+#detalle ul:last-child li{
     border-top: 1px solid #ccc;
 }
 /* datos de envio */

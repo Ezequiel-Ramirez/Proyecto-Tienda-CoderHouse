@@ -2,7 +2,6 @@
 
 const DATOS = [{
     "id": 1,
-  
     "nombre": "Stady",
     "orientacion": "Masculino",
     "tipo": "Descanso",
