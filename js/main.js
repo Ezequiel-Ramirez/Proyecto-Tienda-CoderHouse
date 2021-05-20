@@ -75,7 +75,7 @@ function generarSalida(productos) {
     let padreUl = document.getElementById("listaImporte");
     let lista = "";
     for (const producto of productos) {
-        inner += `<tr><td>${producto.id}</td><td>${producto.img}</td><td>${producto.nombre}</td><td>${producto.precio}</td><td><input type="number" id="cantidad" min="1" max="5" value="1"></td></tr>`;
+        inner += `<tr><td>${producto.id}</td><td><img src="${producto.img}" alt="lente 1" class="product__imgTabla" /></td><td>${producto.nombre}</td><td>${producto.precio}</td><td><input type="number" id="cantidad" min="1" max="5" value="1"></td><td><button id="${producto.id}" class="btnEliminar">X</button></td></tr>`;
         /* listado en detalle */
 
         lista += ` <li>Producto -> ${producto.nombre}
@@ -128,7 +128,7 @@ function crearElemento(dato) {
     //asigno una clase
     nuevoElemento.classList.add("product");
     //creo la plantilla del contenido
-    nuevoElemento.innerHTML = `<img src="img/lente1.jpg" alt="lente 1" class="product__img" />
+    nuevoElemento.innerHTML = `<img src="${dato.img}" alt="lente 1" class="product__img" />
 <div class="product__description">
   <h3 class="product__title">${dato.nombre}</h3>
   <span class="product__price">$ ${dato.precio}</span>
