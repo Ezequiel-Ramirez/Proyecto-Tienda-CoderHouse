@@ -58,17 +58,20 @@ function manejadorCompra(evento) {
     //determino el id del seleccionado
     let seleccionado = evento.target.id;
     //encuentro la informacion del producto relacionado a ese ID
-    let producto = DATOS.find(objeto => objeto.id == seleccionado);
+    let producto = new Lentes(DATOS.find(objeto => objeto.id == seleccionado));
     //Incluyo en el carrito los productos seleccionados
     console.log(seleccionado);
     console.log(producto);
     CARRITO.push(producto);
     console.log(CARRITO);
     generarSalida(CARRITO);
-    
+    //puedo usar los metodos de la clase ya una vez hecho el new Lentes:
+    //CARRITO[0].estaDisponible();
+    //console.log(CARRITO[0].vendido);
     
 
 }
+//IMPRIMO EN EL SECTOR CARRITO LOS PRODUCTOS SELECCIONADOS
 function generarSalida(productos) {
     let body = document.getElementById("tabla").children[1];
     let inner = "";

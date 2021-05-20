@@ -38,7 +38,7 @@ const DATOS = [{
   },
   {
     "id": 6,
-    "img": "img/lente5.jpg",
+    "img": "img/lente6.jpg",
     "nombre": "Girls",
     "orientacion": "Infantil",
     "tipo": "Lectura",
@@ -46,7 +46,7 @@ const DATOS = [{
   },
   {
     "id": 7,
-    "img": "img/lente5.jpg",
+    "img": "img/lente7.jpg",
     "nombre": "Dandy",
     "orientacion": "Masculino",
     "tipo": "Sol",
@@ -54,7 +54,7 @@ const DATOS = [{
   },
   {
     "id": 8,
-    "img": "img/lente5.jpg",
+    "img": "img/lente8.jpg",
     "nombre": "Ryband",
     "orientacion": "Masculino",
     "tipo": "Sol",
