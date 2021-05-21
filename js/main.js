@@ -2,6 +2,7 @@
 class Lentes {
     constructor(datos) {
         this.id = parseInt(datos.id);
+        this.img = datos.img;
         this.nombre = datos.nombre;
         this.orientacion = datos.orientacion;
         this.tipo = datos.tipo;
@@ -30,6 +31,7 @@ for (const objeto of DATOS) {
 let sumaParcial = 0;
 const PREFIJO = "productoID";
 
+
 //FUNCIONES MATEMATICAS
 const multiplicacion = (a, b) => a * b;
 const iva = a => a * 0.21;
@@ -53,6 +55,8 @@ for (const boton of botones) {
 }
 
 const CARRITO = [];
+const carritoStorage = [];
+let almacenados = "";
 
 function manejadorCompra(evento) {
     //determino el id del seleccionado
@@ -60,17 +64,24 @@ function manejadorCompra(evento) {
     //encuentro la informacion del producto relacionado a ese ID
     let producto = new Lentes(DATOS.find(objeto => objeto.id == seleccionado));
     //Incluyo en el carrito los productos seleccionados
-    console.log(seleccionado);
-    console.log(producto);
+    //console.log(seleccionado);
+    //console.log(producto);
     CARRITO.push(producto);
     console.log(CARRITO);
-    generarSalida(CARRITO);
+    
+    //guardarLocal(CARRITO);
+    saveToLocal("productoCarro", CARRITO);
+    getFromLocal("productoCarro");
+    console.log(carritoStorage);
+    generarSalida(almacenados);
     //puedo usar los metodos de la clase ya una vez hecho el new Lentes:
     //CARRITO[0].estaDisponible();
     //console.log(CARRITO[0].vendido);
     
 
 }
+
+
 //IMPRIMO EN EL SECTOR CARRITO LOS PRODUCTOS SELECCIONADOS
 function generarSalida(productos) {
     let body = document.getElementById("tabla").children[1];
@@ -91,6 +102,41 @@ function generarSalida(productos) {
     padreUl.innerHTML = lista;
     
 };
+        
+
+
+
+
+//FUNCION PARA GUARDAR EN LOCALSTORAGE
+function saveToLocal(key, data){
+	
+	localStorage.setItem(key, JSON.stringify(data)); 
+	 
+ }
+ //FUNCION PARA RECUPERAR DATOS DE LOCALSTORAGE
+function getFromLocal(key) {
+     almacenados = JSON.parse(localStorage.getItem(key));
+    console.log(almacenados);
+    for (const objetos of almacenados) {
+        carritoStorage.push(new Lentes(objetos));
+    }
+}
+console.log(carritoStorage);
+/* function guardarLocal(data) {
+    for (const producto of data) {
+        localStorage.setItem(producto.id, JSON.stringify(producto));
+       console.log(localStorage); 
+   }
+    
+} */
+
+/*  function guardarLocal(productos){
+    for (const producto of productos) {
+         localStorage.setItem(producto.id, JSON.stringify(producto));
+        console.log(localStorage); 
+    }
+}       */
+
 
 //FUNCION PARA SUMA TOTAL DE IMPORTE
 //MUESTRO LA SUMA TOTAL EN UL
