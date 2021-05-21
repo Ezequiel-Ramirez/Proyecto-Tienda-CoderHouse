@@ -50,10 +50,15 @@ let botones = document.getElementsByClassName("btnCompra");
 console.log(botones);
 for (const boton of botones) {
     boton.onclick = manejadorCompra;
-
-
 }
 
+//DETECTA EVENTO DE BORRAR COMPRA(a revisar)
+let botonesx = document.getElementsByClassName("btnEliminar");
+console.log(botonesx);
+for (const boton of botonesx) {
+    boton.onclick = manejadorEliminar;
+
+}
 const CARRITO = [];
 const carritoStorage = [];
 let almacenados = "";
@@ -68,18 +73,28 @@ function manejadorCompra(evento) {
     //console.log(producto);
     CARRITO.push(producto);
     console.log(CARRITO);
-    
     //guardarLocal(CARRITO);
     saveToLocal("productoCarro", CARRITO);
     getFromLocal("productoCarro");
     console.log(carritoStorage);
     generarSalida(almacenados);
+    
     //puedo usar los metodos de la clase ya una vez hecho el new Lentes:
     //CARRITO[0].estaDisponible();
     //console.log(CARRITO[0].vendido);
-    
+}
+
+function manejadorEliminar(evento) {//a revisar
+    //determino el id del seleccionado
+    let seleccionadox = evento.target.id;
+    console.log(seleccionadox);
+    //encuentro la info del producto relacionado a ese id
+    let productox = almacenados.find(objeto => objeto.id == seleccionadox);
+    almacenados = almacenados.map(p => p != productox);
+    generarSalida(almacenados);
 
 }
+
 
 
 //IMPRIMO EN EL SECTOR CARRITO LOS PRODUCTOS SELECCIONADOS
@@ -94,80 +109,51 @@ function generarSalida(productos) {
 
         lista += ` <li>Producto -> ${producto.nombre}
     <span>$ ${producto.precio * 1}</span></li>
-     `;
-     /* suma parcial del total gastado */
-     sumaParcial += producto.precio;
-        }
+    `;
+      
+    }
     body.innerHTML = inner;
     padreUl.innerHTML = lista;
+    sumaParcial += productos.precio;
+    console.log(sumaParcial);
     
 };
-        
-
-
-
 
 //FUNCION PARA GUARDAR EN LOCALSTORAGE
-function saveToLocal(key, data){
-	
-	localStorage.setItem(key, JSON.stringify(data)); 
-	 
- }
- //FUNCION PARA RECUPERAR DATOS DE LOCALSTORAGE
+function saveToLocal(key, data) {
+
+    localStorage.setItem(key, JSON.stringify(data));
+
+}
+//FUNCION PARA RECUPERAR DATOS DE LOCALSTORAGE
 function getFromLocal(key) {
-     almacenados = JSON.parse(localStorage.getItem(key));
+    almacenados = JSON.parse(localStorage.getItem(key));
     console.log(almacenados);
     for (const objetos of almacenados) {
         carritoStorage.push(new Lentes(objetos));
     }
 }
 console.log(carritoStorage);
-/* function guardarLocal(data) {
-    for (const producto of data) {
-        localStorage.setItem(producto.id, JSON.stringify(producto));
-       console.log(localStorage); 
-   }
-    
-} */
-
-/*  function guardarLocal(productos){
-    for (const producto of productos) {
-         localStorage.setItem(producto.id, JSON.stringify(producto));
-        console.log(localStorage); 
-    }
-}       */
-
 
 //FUNCION PARA SUMA TOTAL DE IMPORTE
 //MUESTRO LA SUMA TOTAL EN UL
 let padre2Ul = document.getElementById("importeTotal");
+
 function funcionImporteTotal(dato) {
+   
+       
+
+    
     let nuevoli = document.createElement("li");
     nuevoli.innerHTML =
-     `Total=
+        `Total=
         <span>$  ${dato}</span>
         `;
-        padre2Ul.appendChild(nuevoli);
-    }
-    
-   
+    padre2Ul.appendChild(nuevoli);
+}
 funcionImporteTotal(sumaParcial);
+console.log(sumaParcial);
 
-/* function generarSalida(productos) {
-    
-    for (const producto of productos) {
-        
-       agregarCarroId(producto) +
-        agregarCarroFoto(producto)+
-        agregarCarroNombre(producto)+
-        agregarCarroPrecio(producto)+
-        //agregarCarroCantidad(producto); 
-       // funcionDeImporte(producto);
-        funcionImporteTotal(sumaTotal);
-        
-    }
-    
-} */
 
 //funcion para crear en elemento del DOM
 function crearElemento(dato) {
@@ -184,13 +170,32 @@ function crearElemento(dato) {
 </div>
 <button id="${dato.id}" class="btnCompra">COMPRAR</button>
 `;
-
     //agrego cada nodo creado al padre
     contenedorProduct.appendChild(nuevoElemento);
-
 }
 
+/* GUARDO EN LOCALSTORAGE DATOS DEL FORMULARIO */
+let miFormulario = document.getElementById("form");
+miFormulario.addEventListener("submit", validarFormulario);
 
+function validarFormulario(evento) {
+    evento.preventDefault();
+    let campos = miFormulario.elements;
+    console.log(evento);
+    console.log(evento.timeStamp);
+    console.log(campos);
+
+    console.log("for of");
+    
+    for(const campo of campos){
+        if(campo.value.length > 0){
+        console.log("id:" + campo.id, "Valor: " + campo.value);
+        saveToLocal(campo.id, campo.value)
+    }else
+        console.error(campo.id,"vacío")
+    }
+    
+};
 
 
 //NOTIFICAR DISPONIBILIDAD POR CONSOLA
@@ -200,75 +205,13 @@ function crearElemento(dato) {
         console.log("El producto se encuentra vendido (false)? ");
         console.log(iterador);
     }
-    
+
 } */
-/* Inicio carrito */
-
-/* let padreSelecciones = document.getElementById("filaDeSeleccionados");
-//CREO FUNCION PARA AGREGAR AL CARRITO UN PRODUCTO
-function agregarCarroId(prod) {
-    let celda1 = document.createElement("th");
-    celda1.classList.add('id');
-    celda1.innerHTML = `${prod.id}`;
-    padreSelecciones.appendChild(celda1);
-}
-function agregarCarroFoto(prod) {
-    let celda2 = document.createElement("th");
-    celda2.classList.add('prodFoto');
-    celda2.innerHTML = `${prod.img}`;
-    padreSelecciones.appendChild(celda2);
-}
-function agregarCarroNombre(prod) {
-    let celda3 = document.createElement("th");
-    celda3.classList.add('prodNombre');
-    celda3.innerHTML = `${prod.nombre}`;
-    padreSelecciones.appendChild(celda3);
-}
-function agregarCarroPrecio(prod) {
-    let celda4 = document.createElement("th");
-    celda4.classList.add('prodPrecio');
-    celda4.innerHTML = `${prod.precio}`;
-    padreSelecciones.appendChild(celda4);
-}   */
-//function agregarCarroCantidad(prod) {
-//  let celda5 = document.createElement("th");
-//  celda5.classList.add('prodCantidad');
-//  celda5.innerHTML = `${cantidad}`;
-//  padreSelecciones.appendChild(celda5);
-//} 
-//FUNCION PARA MOSTRAR SU IMPORTE A ABONAR
-//MUESTRO LA SELECCIÓN POR HTML EN UL
-//function funcionDeImporte(dato){
-//    let padreUl = document.getElementById("listaImporte");
-//   let lista = document.createElement("li");
-//   lista.classList.add("lista_importe__detalle");
-//   lista.innerHTML = ` Producto -> ${dato.nombre}
-//   <span>$ ${dato.precio * cantidad}</span>
-//                       `;
-//   padreUl.appendChild(lista);
-//   sumaTotal += (dato.precio*cantidad);
-//  }   
 
 
 
-//MUESTRO LA SELECCIÓN POR HTML
-//agregarCarroId(encontrado);
-//agregarCarroFoto(encontrado);
-//agregarCarroNombre(encontrado);
-//agregarCarroPrecio(encontrado);
-/* let padreSelecciones = document.getElementById("filaDeSeleccionados");
-let contenedor2 = document.createElement("th");
-contenedor2.classList.add("col-6");
-contenedor2.classList.add("container_product");
-contenedor2.classList.add("p3");
-contenedor2.classList.add("container_product__select");
-contenedor2.innerHTML = ` <h2>Lente: ${encontrado.id} </h2>
-                        <h3>Descripción: </h3>
-                        <p> Sexo: ${encontrado.orientacion}</br>
-                            Uso: ${encontrado.tipo}</br>
-                            Precio: ${encontrado.precio}</br></p>
-`;
-padreSelecciones.appendChild(contenedor2); */
+
+
 
 
 
