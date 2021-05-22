@@ -59,6 +59,7 @@ for (const boton of botonesx) {
     boton.onclick = manejadorEliminar;
 
 }
+
 const CARRITO = [];
 const carritoStorage = [];
 let almacenados = "";
@@ -77,7 +78,9 @@ function manejadorCompra(evento) {
     saveToLocal("productoCarro", CARRITO);
     getFromLocal("productoCarro");
     console.log(carritoStorage);
-    generarSalida(almacenados);
+    generarSalida(CARRITO);
+    // Calculamos  el precio
+    calcularTotal();
     
     //puedo usar los metodos de la clase ya una vez hecho el new Lentes:
     //CARRITO[0].estaDisponible();
@@ -89,10 +92,15 @@ function manejadorEliminar(evento) {//a revisar
     let seleccionadox = evento.target.id;
     console.log(seleccionadox);
     //encuentro la info del producto relacionado a ese id
-    let productox = almacenados.find(objeto => objeto.id == seleccionadox);
-    almacenados = almacenados.map(p => p != productox);
-    generarSalida(almacenados);
-
+    CARRITO = CARRITO.filter((carritoId) => {
+        return carritoId !== seleccionadox;
+        
+    });
+    
+    //vuelvo a cargar carrito
+    generarSalida();
+// Calculamos de nuevo el precio
+    calcularTotal();
 }
 
 
@@ -100,9 +108,15 @@ function manejadorEliminar(evento) {//a revisar
 //IMPRIMO EN EL SECTOR CARRITO LOS PRODUCTOS SELECCIONADOS
 function generarSalida(productos) {
     let body = document.getElementById("tabla").children[1];
+    //vacio todo el contenedor
+    body.textContent = "";
     let inner = "";
+
     let padreUl = document.getElementById("listaImporte");
+//vacio todo el contenedor
+    padreUl.textContent = "";
     let lista = "";
+
     for (const producto of productos) {
         inner += `<tr><td>${producto.id}</td><td><img src="${producto.img}" alt="lente 1" class="product__imgTabla" /></td><td>${producto.nombre}</td><td>${producto.precio}</td><td><input type="number" id="cantidad" min="1" max="5" value="1"></td><td><button id="${producto.id}" class="btnEliminar">X</button></td></tr>`;
         /* listado en detalle */
@@ -115,7 +129,7 @@ function generarSalida(productos) {
     body.innerHTML = inner;
     padreUl.innerHTML = lista;
     sumaParcial += productos.precio;
-    console.log(sumaParcial);
+    
     
 };
 
@@ -136,13 +150,25 @@ function getFromLocal(key) {
 console.log(carritoStorage);
 
 //FUNCION PARA SUMA TOTAL DE IMPORTE
+function calcularTotal(){
+//limpio el precio
+sumaParcial = 0;
+CARRITO.forEach((item) =>{
+    //de cada elemento obtengo su precio
+    const miItem = DATOS.filter((itemDatos) =>{
+        return itemDatos.id === parseInt(item);
+    });
+    sumaParcial = sumaParcial + miItem[0].precio;
+});
+// Renderizamos el precio en el HTML
+padre2Ul.textContent = sumaParcial.toFixed(2);
+}
+
+
 //MUESTRO LA SUMA TOTAL EN UL
 let padre2Ul = document.getElementById("importeTotal");
 
-function funcionImporteTotal(dato) {
-   
-       
-
+function ImporteTotalDom(dato) {
     
     let nuevoli = document.createElement("li");
     nuevoli.innerHTML =
@@ -151,7 +177,7 @@ function funcionImporteTotal(dato) {
         `;
     padre2Ul.appendChild(nuevoli);
 }
-funcionImporteTotal(sumaParcial);
+ImporteTotalDom(sumaParcial);
 console.log(sumaParcial);
 
 
