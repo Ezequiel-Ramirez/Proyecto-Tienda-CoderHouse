@@ -78,7 +78,8 @@ function manejadorCompra(evento) {
     saveToLocal("productoCarro", CARRITO);
     getFromLocal("productoCarro");
     console.log(carritoStorage);
-    generarSalida(CARRITO);
+    //genero salida a traves del localStorage
+    generarSalida(carritoStorage);
     // Calculamos  el precio
     calcularTotal();
     
@@ -92,8 +93,9 @@ function manejadorEliminar(evento) {//a revisar
     let seleccionadox = evento.target.id;
     console.log(seleccionadox);
     //encuentro la info del producto relacionado a ese id
+    let posicion = CARRITO.findIndex(numero => numero.id == seleccionadox);
     CARRITO = CARRITO.filter((carritoId) => {
-        return carritoId !== seleccionadox;
+        return carritoId !== posicion;
         
     });
     
@@ -143,6 +145,7 @@ function saveToLocal(key, data) {
 function getFromLocal(key) {
     almacenados = JSON.parse(localStorage.getItem(key));
     console.log(almacenados);
+    carritoStorage.length = 0;
     for (const objetos of almacenados) {
         carritoStorage.push(new Lentes(objetos));
     }
@@ -153,16 +156,12 @@ console.log(carritoStorage);
 function calcularTotal(){
 //limpio el precio
 sumaParcial = 0;
-CARRITO.forEach((item) =>{
-    //de cada elemento obtengo su precio
-    const miItem = DATOS.filter((itemDatos) =>{
-        return itemDatos.id === parseInt(item);
-    });
-    sumaParcial = sumaParcial + miItem[0].precio;
-});
-// Renderizamos el precio en el HTML
-padre2Ul.textContent = sumaParcial.toFixed(2);
+for (const iterator of CARRITO) {
+    sumaParcial+= iterator.precio;
 }
+
+}
+
 
 
 //MUESTRO LA SUMA TOTAL EN UL
