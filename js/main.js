@@ -88,11 +88,17 @@ function manejadorEliminar(evento) {//a revisar
     console.log(seleccionadox);
     //encuentro el producto relacionado a ese id
     let productox = carritoStorage.find(objeto => objeto.id == seleccionadox);
+    let producto = CARRITO.find(objeto => objeto.id == seleccionadox);
     //busco la posicion de ese id en el array
     let posicion = carritoStorage.findIndex(numero => numero == productox);
     console.log(posicion);
+    let posicionx = CARRITO.findIndex(numero => numero == producto);
+    console.log(posicionx);
     //lo borro del array
     carritoStorage.splice(posicion, 1);
+    CARRITO.splice(posicionx, 1);
+    //vuelvo a recargar el localStorage
+    saveToLocal("productoCarro", CARRITO);
     //vuelvo a cargar carrito
     generarSalida(carritoStorage);
     // Calculamos de nuevo el precio
