@@ -52,14 +52,6 @@ for (const boton of botones) {
     boton.onclick = manejadorCompra;
 }
 
-//DETECTA EVENTO DE BORRAR COMPRA(a revisar)
-let botonesx = document.getElementsByClassName("btnEliminar");
-console.log(botonesx);
-for (const boton of botonesx) {
-    boton.onclick = manejadorEliminar;
-
-}
-
 const CARRITO = [];
 const carritoStorage = [];
 let almacenados = "";
@@ -88,30 +80,36 @@ function manejadorCompra(evento) {
     //console.log(CARRITO[0].vendido);
 }
 
+
 function manejadorEliminar(evento) {//a revisar
+   
     //determino el id del seleccionado
-    let seleccionadox = evento.target.id;
+    seleccionadox = evento.target.id;
     console.log(seleccionadox);
-    //encuentro la info del producto relacionado a ese id
-    let posicion = CARRITO.findIndex(numero => numero.id == seleccionadox);
-    CARRITO = CARRITO.filter((carritoId) => {
-        return carritoId !== posicion;
-        
-    });
-    
+    //encuentro el producto relacionado a ese id
+    let productox = carritoStorage.find(objeto => objeto.id == seleccionadox);
+    //busco la posicion de ese id en el array
+    let posicion = carritoStorage.findIndex(numero => numero == productox);
+    console.log(posicion);
+    //lo borro del array
+    carritoStorage.splice(posicion, 1);
     //vuelvo a cargar carrito
-    generarSalida();
-// Calculamos de nuevo el precio
+    generarSalida(carritoStorage);
+    // Calculamos de nuevo el precio
     calcularTotal();
-}
+};
 
-
+// Eliminar los productos
+function limpiarHTML(contenedor) {
+    contenedor = '';
+};
 
 //IMPRIMO EN EL SECTOR CARRITO LOS PRODUCTOS SELECCIONADOS
 function generarSalida(productos) {
     let body = document.getElementById("tabla").children[1];
     //vacio todo el contenedor
-    body.textContent = "";
+    limpiarHTML(body);
+  
     let inner = "";
 
     let padreUl = document.getElementById("listaImporte");
@@ -126,21 +124,26 @@ function generarSalida(productos) {
         lista += ` <li>Producto -> ${producto.nombre}
     <span>$ ${producto.precio * 1}</span></li>
     `;
-      
+    
     }
+    
     body.innerHTML = inner;
     padreUl.innerHTML = lista;
-    sumaParcial += productos.precio;
-    
-    
+ 
+//DETECTA EVENTO DE BORRAR COMPRA
+let botonesx = document.getElementsByClassName("btnEliminar");
+console.log(botonesx);
+for (const boton of botonesx) {
+        boton.onclick = manejadorEliminar;
+
+}
 };
 
 //FUNCION PARA GUARDAR EN LOCALSTORAGE
 function saveToLocal(key, data) {
-
     localStorage.setItem(key, JSON.stringify(data));
-
 }
+
 //FUNCION PARA RECUPERAR DATOS DE LOCALSTORAGE
 function getFromLocal(key) {
     almacenados = JSON.parse(localStorage.getItem(key));
@@ -148,21 +151,18 @@ function getFromLocal(key) {
     carritoStorage.length = 0;
     for (const objetos of almacenados) {
         carritoStorage.push(new Lentes(objetos));
+        
     }
 }
-console.log(carritoStorage);
 
 //FUNCION PARA SUMA TOTAL DE IMPORTE
 function calcularTotal(){
 //limpio el precio
 sumaParcial = 0;
-for (const iterator of CARRITO) {
+for (const iterator of carritoStorage) {
     sumaParcial+= iterator.precio;
 }
-
-}
-
-
+};
 
 //MUESTRO LA SUMA TOTAL EN UL
 let padre2Ul = document.getElementById("importeTotal");
@@ -211,15 +211,13 @@ function validarFormulario(evento) {
     console.log(campos);
 
     console.log("for of");
-    
-    for(const campo of campos){
+        for(const campo of campos){
         if(campo.value.length > 0){
         console.log("id:" + campo.id, "Valor: " + campo.value);
         saveToLocal(campo.id, campo.value)
     }else
         console.error(campo.id,"vacío")
     }
-    
 };
 
 
