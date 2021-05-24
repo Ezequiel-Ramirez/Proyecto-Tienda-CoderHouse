@@ -103,6 +103,7 @@ function manejadorEliminar(evento) {//a revisar
     generarSalida(carritoStorage);
     // Calculamos de nuevo el precio
     calcularTotal();
+    
 };
 
 // Eliminar los productos
@@ -126,22 +127,18 @@ function generarSalida(productos) {
     for (const producto of productos) {
         inner += `<tr><td>${producto.id}</td><td><img src="${producto.img}" alt="lente 1" class="product__imgTabla" /></td><td>${producto.nombre}</td><td>${producto.precio}</td><td><input type="number" id="cantidad" min="1" max="5" value="1"></td><td><button id="${producto.id}" class="btnEliminar">X</button></td></tr>`;
         /* listado en detalle */
-
         lista += ` <li>Producto -> ${producto.nombre}
-    <span>$ ${producto.precio * 1}</span></li>
-    `;
-    
+       <span>$ ${producto.precio * 1}</span></li>
+       `;
     }
-    
     body.innerHTML = inner;
     padreUl.innerHTML = lista;
- 
+
 //DETECTA EVENTO DE BORRAR COMPRA
 let botonesx = document.getElementsByClassName("btnEliminar");
 console.log(botonesx);
 for (const boton of botonesx) {
         boton.onclick = manejadorEliminar;
-
 }
 };
 
@@ -157,7 +154,6 @@ function getFromLocal(key) {
     carritoStorage.length = 0;
     for (const objetos of almacenados) {
         carritoStorage.push(new Lentes(objetos));
-        
     }
 }
 
@@ -165,9 +161,9 @@ function getFromLocal(key) {
 function calcularTotal(){
 //limpio el precio
 sumaParcial = 0;
-for (const iterator of carritoStorage) {
-    sumaParcial+= iterator.precio;
-}
+carritoStorage.forEach((dato) => {
+  sumaParcial += dato.precio;
+})
 };
 
 //MUESTRO LA SUMA TOTAL EN UL
