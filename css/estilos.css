@@ -385,13 +385,18 @@ font-weight: bold;
     padding: 10px;
     margin: 10px 0;
 }
-#detalle h4, #form h4{
+#detalle #btnMostrar, #form h4{
+    width: 100%;
     background-color: #ff4e00;
     color: #F7F7F7;
     text-transform: uppercase;
     font-size: 1em;
     text-align: center;
     padding: 10px;
+}
+#detalle #btnMostrar:hover {
+    background-color: #752705;
+ 
 }
 #detalle ul{
     list-style-type: none;

@@ -9,7 +9,6 @@ class Lentes {
         this.precio = parseFloat(datos.precio);
         this.vendido = false;
     }
-
     // METODO PARA VENDER EL PRODUCTO
     vender() {
         this.vendido = true;
@@ -33,6 +32,7 @@ const PREFIJO = "productoID";
 const CARRITO = [];
 const carritoStorage = [];
 let almacenados = "";
+let cantidad = 0;
 
 //FUNCIONES MATEMATICAS
 const multiplicacion = (a, b) => a * b;
@@ -45,7 +45,8 @@ const rec = a => a + (a * 0.1);
 let contenedorProduct = document.getElementById("container-productos");
 //  AGREGAMOS UN NUEVO ELEMENTO AL HTML POR CADA REGISTRO DE DATO ESTATICO
 for (const lente of DATOS) {
-    crearElemento(lente);
+    $("container-productos").append(crearElemento(lente));
+    
 }
 //DETECTAR EVENTOS DE COMPRA
 let botones = document.getElementsByClassName("btnCompra");
@@ -71,9 +72,11 @@ function manejadorCompra(evento) {
     console.log(carritoStorage);
     //genero salida a traves del localStorage
     generarSalida(carritoStorage);
+    
     // Calculamos  el precio
     calcularTotal();
-    ImporteTotalDom(sumaParcial);
+    ImporteTotalDom(sumaParcial,carritoStorage);
+    
     
     //puedo usar los metodos de la clase ya una vez hecho el new Lentes:
     //CARRITO[0].estaDisponible();
@@ -102,8 +105,9 @@ function manejadorEliminar(evento) {
     //vuelvo a cargar carrito
     generarSalida(carritoStorage);
     // Calculamos  el precio
+    
     calcularTotal();
-    ImporteTotalDom(sumaParcial);
+    ImporteTotalDom(sumaParcial,carritoStorage);
 };
 
 //IMPRIMO EN EL SECTOR CARRITO LOS PRODUCTOS SELECCIONADOS
@@ -121,13 +125,16 @@ function generarSalida(productos) {
         inner += `<tr><td>${producto.id}</td><td><img src="${producto.img}" alt="lente 1" class="product__imgTabla" /></td><td>${producto.nombre}</td><td>${producto.precio}</td><td><input type="number" id="cantidad" min="1" max="5" value="1"></td><td><button id="${producto.id}" class="btnEliminar">X</button></td></tr>`;
         /* listado en detalle */
         lista += ` <li>Producto -> ${producto.nombre}
-       <span>$ ${producto.precio * 1}</span></li>
+       <span>$ ${producto.precio * cantidad}</span></li>
         `;
-
+        
+       
     }
     body.innerHTML = inner;
     padreUl.innerHTML = lista;
-    
+    cantidadDOM();
+
+
 //DETECTA EVENTO DE BORRAR COMPRA
 let botonesx = document.getElementsByClassName("btnEliminar");
 console.log(botonesx);
@@ -135,6 +142,12 @@ for (const boton of botonesx) {
         boton.onclick = manejadorEliminar;
 }
 };
+//FUNCION PARA MOSTRAR LA CANTIDAD DE CADA UNO
+function cantidadDOM(){
+     cantidad = $("#cantidad").val();
+     console.log(cantidad);
+
+}
 
 //FUNCION PARA GUARDAR EN LOCALSTORAGE
 function saveToLocal(key, data) {
@@ -153,6 +166,7 @@ function getFromLocal(key) {
 
 //FUNCION PARA SUMA TOTAL DE IMPORTE
 function calcularTotal(){
+   
 sumaParcial = 0;
 carritoStorage.forEach((dato) => {
     sumaParcial += dato.precio;
@@ -162,16 +176,23 @@ carritoStorage.forEach((dato) => {
 
 //MUESTRO LA SUMA TOTAL EN UL
 let padre2Ul = document.getElementById("importeTotal");
-function ImporteTotalDom(dato) {
+function ImporteTotalDom(dato,datos) {
     //vacio todo el contenedor
     padre2Ul.innerHTML= "";
     let nuevoli = document.createElement("li");
     nuevoli.innerHTML =
-        `Total=
+        `Total= ${datos.length} Productos ->
         <span>$  ${dato}</span>
         `;
     padre2Ul.appendChild(nuevoli);
 }
+
+//OCULTO EL UL CON EL BOTON
+$("#btnMostrar").click(function(){
+    $("#listaImporte").slideToggle("normal")
+                    .css("background", "#ccc");
+})
+
 
 //funcion para crear en elemento del DOM
 function crearElemento(dato) {
