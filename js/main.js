@@ -6,6 +6,7 @@ class Lentes {
         this.nombre = datos.nombre;
         this.orientacion = datos.orientacion;
         this.tipo = datos.tipo;
+        this.cantidad = 1;
         this.precio = parseFloat(datos.precio);
         this.vendido = false;
     }
@@ -27,13 +28,13 @@ for (const objeto of DATOS) {
 
 //VARIABLES
 
-let sumaParcial = 0;
+let total = 0;
 const PREFIJO = "productoID";
 const CARRITO = [];
 const carritoStorage = [];
 let almacenados = "";
-let cantidad = 0;
-
+let cantidades = 0;
+let totalcantidad = 0;
 //FUNCIONES MATEMATICAS
 const multiplicacion = (a, b) => a * b;
 const iva = a => a * 0.21;
@@ -64,6 +65,7 @@ function manejadorCompra(evento) {
     //Incluyo en el carrito los productos seleccionados
     //console.log(seleccionado);
     //console.log(producto);
+    
     CARRITO.push(producto);
     console.log(CARRITO);
     //guardarLocal(CARRITO);
@@ -72,11 +74,10 @@ function manejadorCompra(evento) {
     console.log(carritoStorage);
     //genero salida a traves del localStorage
     generarSalida(carritoStorage);
-    
     // Calculamos  el precio
     calcularTotal();
-    ImporteTotalDom(sumaParcial,carritoStorage);
-    
+    calcularTotalCantidad();
+    ImporteTotalDom(total, totalcantidad);
     
     //puedo usar los metodos de la clase ya una vez hecho el new Lentes:
     //CARRITO[0].estaDisponible();
@@ -105,9 +106,9 @@ function manejadorEliminar(evento) {
     //vuelvo a cargar carrito
     generarSalida(carritoStorage);
     // Calculamos  el precio
-    
     calcularTotal();
-    ImporteTotalDom(sumaParcial,carritoStorage);
+    calcularTotalCantidad();
+    ImporteTotalDom(total, totalcantidad);
 };
 
 //IMPRIMO EN EL SECTOR CARRITO LOS PRODUCTOS SELECCIONADOS
@@ -122,18 +123,16 @@ function generarSalida(productos) {
     let lista = "";
 
     for (const producto of productos) {
-        inner += `<tr><td>${producto.id}</td><td><img src="${producto.img}" alt="lente 1" class="product__imgTabla" /></td><td>${producto.nombre}</td><td>${producto.precio}</td><td><input type="number" id="cantidad" min="1" max="5" value="1"></td><td><button id="${producto.id}" class="btnEliminar">X</button></td></tr>`;
+        inner += `<tr><td>${producto.id}</td><td><img src="${producto.img}" alt="lente 1" class="product__imgTabla" /></td><td>${producto.nombre}</td><td>${producto.precio}</td><td><input type="number" id="${producto.id}" class="inputCantidad"  value="${producto.cantidad}" min="1" max="5"></td><td><button id="${producto.id}" class="btnEliminar">X</button></td></tr>`;
         /* listado en detalle */
-        lista += ` <li>Producto -> ${producto.nombre}
-       <span>$ ${producto.precio * cantidad}</span></li>
+        lista += ` <li id="${producto.id}" class="lista">Producto -> ${producto.nombre}
+       <span id="${producto.id}">$ ${producto.precio * producto.cantidad }</span></li>
         `;
-        
-       
     }
-    body.innerHTML = inner;
-    padreUl.innerHTML = lista;
-    cantidadDOM();
-
+        body.innerHTML = inner;
+        padreUl.innerHTML = lista;
+        //calculo la cantidad en el carrito segun cantidad inicial
+        cantidadDOM();
 
 //DETECTA EVENTO DE BORRAR COMPRA
 let botonesx = document.getElementsByClassName("btnEliminar");
@@ -142,15 +141,41 @@ for (const boton of botonesx) {
         boton.onclick = manejadorEliminar;
 }
 };
+
 //FUNCION PARA MOSTRAR LA CANTIDAD DE CADA UNO
 function cantidadDOM(){
-     cantidad = $("#cantidad").val();
-     console.log(cantidad);
-
+    $(".inputCantidad").change(function (e) { 
+        //obtengo el id
+        let id =(e.target.id);
+        //obtengo el valor que cambió
+        cantidades = $(this).val();
+        //busco el producto en el carrito y le cambio la cantidad en el array para usarlo como dato a mostrar
+        let producto = carritoStorage.find(objeto => objeto.id == id);
+        producto.cantidad = cantidades;
+        //reemplazo definitivamente los datos en el carrito para obtener totales despues
+        CARRITO.map(function(dato){
+            if(dato.id == id){
+                dato.cantidad = cantidades;
+            }
+        })
+        //busco el li en el DOM y le cambio el texto por el nuevo valor
+        let totalxproducto = producto.precio * producto.cantidad;
+        $(".lista span").each(function () { 
+            if (this.id == id){
+                $(this).text("$ " + totalxproducto);
+            }
+        });
+        //vuelvo a hacer los calculos con el nuevo carrito mapeado
+        saveToLocal("productoCarro", CARRITO);
+        calcularTotal();
+        calcularTotalCantidad();
+        ImporteTotalDom(total, totalcantidad);
+});
 }
 
 //FUNCION PARA GUARDAR EN LOCALSTORAGE
 function saveToLocal(key, data) {
+    localStorage.clear();
     localStorage.setItem(key, JSON.stringify(data));
 }
 
@@ -166,11 +191,16 @@ function getFromLocal(key) {
 
 //FUNCION PARA SUMA TOTAL DE IMPORTE
 function calcularTotal(){
-   
-sumaParcial = 0;
+    total = 0;
 carritoStorage.forEach((dato) => {
-    sumaParcial += dato.precio;
-  
+    total += dato.precio * dato.cantidad;
+});
+};
+function calcularTotalCantidad(){
+    totalcantidad = 0;
+carritoStorage.forEach((dato) => {
+    totalcantidad += parseInt(dato.cantidad);
+    console.log(totalcantidad);
 });
 };
 
@@ -181,7 +211,7 @@ function ImporteTotalDom(dato,datos) {
     padre2Ul.innerHTML= "";
     let nuevoli = document.createElement("li");
     nuevoli.innerHTML =
-        `Total= ${datos.length} Productos ->
+        `Total= ${datos}  Productos ->
         <span>$  ${dato}</span>
         `;
     padre2Ul.appendChild(nuevoli);
@@ -192,6 +222,14 @@ $("#btnMostrar").click(function(){
     $("#listaImporte").slideToggle("normal")
                     .css("background", "#ccc");
 })
+
+//CAMBIO DE TEXTO EN BOTON AL COMPRAR
+$(".btnCompra").click(function (e){
+    console.log(e.target.id);
+    $(this).text("EN CARRITO")
+            .css("background", "#ccc");
+            
+});
 
 
 //funcion para crear en elemento del DOM
