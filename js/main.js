@@ -223,12 +223,15 @@ $("#btnMostrar").click(function(){
                     .css("background", "#ccc");
 })
 
-//CAMBIO DE TEXTO EN BOTON AL COMPRAR
+//CAMBIO DE TEXTO EN BOTON AL COMPRAR Y ANIMACION
 $(".btnCompra").click(function (e){
     console.log(e.target.id);
     $(this).text("EN CARRITO")
             .css("background", "#ccc");
-            
+
+            $(this).prev(".product__notification").fadeIn("slow")
+                .animate({top: "80px"},"slow")
+                .animate({left: "1300px"},"fast",function () { $(this).removeAttr('style'); });
 });
 
 
@@ -244,7 +247,8 @@ function crearElemento(dato) {
 <div class="product__description">
   <h3 class="product__title">${dato.nombre}</h3>
   <span class="product__price">$ ${dato.precio}</span>
-</div>
+  </div>
+  <div class="product__notification id=${dato.id}"><h6>EN CARRITO</h6></div>
 <button id="${dato.id}" class="btnCompra">COMPRAR</button>
 `;
     //agrego cada nodo creado al padre

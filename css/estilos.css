@@ -200,6 +200,19 @@ font-weight: bold;
     height: 150px;
     object-fit: cover;
 }
+.product__notification{
+    display: none;
+    position: absolute;
+    left: 75px;
+    width: 120PX;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    padding-top: 5px;
+    align-items: center;
+    background-color: #FF4E00;
+    z-index: 50;
+}
 .container-editor{
     margin-top: 20px;
     

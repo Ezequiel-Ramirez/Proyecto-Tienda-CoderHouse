@@ -6,35 +6,40 @@ const DATOS = [{
     "nombre": "Stady",
     "orientacion": "Masculino",
     "tipo": "Descanso",
-    "precio": 514
+    "precio": 514,
+    "stock": 10
   }, {
     "id": 2,
     "img": "img/lente2.jpg",
     "nombre": "Kelvin",
     "orientacion": "Masculino",
     "tipo": "Descanso",
-    "precio": 720
+    "precio": 720,
+    "stock": 7
   }, {
     "id": 3,
     "img": "img/lente3.jpg",
     "nombre": "Intelectual",
     "orientacion": "Femenino",
     "tipo": "Lectura",
-    "precio": 787
+    "precio": 787,
+    "stock": 15
   }, {
     "id": 4,
     "img": "img/lente4.jpg",
     "nombre": "Lady Secret",
     "orientacion": "Femenino",
     "tipo": "Sol",
-    "precio": 572
+    "precio": 572,
+    "stock": 10
   }, {
     "id": 5,
     "img": "img/lente5.jpg",
     "nombre": "Boy",
     "orientacion": "Infantil",
     "tipo": "Lectura",
-    "precio": 819
+    "precio": 819,
+    "stock": 12
   },
   {
     "id": 6,
@@ -42,7 +47,8 @@ const DATOS = [{
     "nombre": "Girls",
     "orientacion": "Infantil",
     "tipo": "Lectura",
-    "precio": 828
+    "precio": 828,
+    "stock": 8
   },
   {
     "id": 7,
@@ -50,7 +56,8 @@ const DATOS = [{
     "nombre": "Dandy",
     "orientacion": "Masculino",
     "tipo": "Sol",
-    "precio": 1019
+    "precio": 1019,
+    "stock": 19
   },
   {
     "id": 8,
@@ -58,6 +65,7 @@ const DATOS = [{
     "nombre": "Ryband",
     "orientacion": "Masculino",
     "tipo": "Sol",
-    "precio": 2019
+    "precio": 2019,
+    "stock": 17
   }
 ];
