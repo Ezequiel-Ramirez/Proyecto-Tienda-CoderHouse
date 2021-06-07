@@ -27,11 +27,6 @@ class Lentes {
         return this.vendido;
     }
 }
-//ARRAY DE OBJETOS
-const productos = [];
-for (const objeto of DATOS) {
-    productos.push(new Lentes(objeto));
-}
 
 //VARIABLES
 
@@ -39,6 +34,7 @@ let total = 0;
 const PREFIJO = "productoID";
 const CARRITO = [];
 const carritoStorage = [];
+let listaDatos = [];
 let almacenados = "";
 let cantidades = 0;
 let totalcantidad = 0;
@@ -51,8 +47,20 @@ const rec = a => a + (a * 0.1);
 //MUESTRO LOS PRUDUCTOS POR DOM
 //elijo el sector del html
 let contenedorProduct = document.getElementById("container-productos");
-//  AGREGAMOS UN NUEVO ELEMENTO AL HTML POR CADA REGISTRO DE DATO ESTATICO
-for (const lente of DATOS) {
+
+//OBTENGO DATOS DESDE JSON
+$.getJSON("data/data.json", function (respuesta, estado) {
+        console.log(respuesta);
+        listaDatos = respuesta;
+
+//ARRAY DE OBJETOS INSTANCIADOS
+const productos = [];
+for (const objeto of listaDatos) {
+    productos.push(new Lentes(objeto));
+}
+
+//AGREGAMOS UN NUEVO ELEMENTO AL HTML POR CADA REGISTRO DE DATO ESTATICO
+for (const lente of listaDatos) {
     $("container-productos").append(crearElemento(lente));
     
 }
@@ -62,8 +70,27 @@ console.log(botones);
 for (const boton of botones) {
     boton.onclick = manejadorCompra;
 }
+//OCULTO EL UL CON EL BOTON
+$("#btnMostrar").click(function(){
+    $("#listaImporte").slideToggle("normal")
+                    .css("background", "#ccc");
+})
 
+//CAMBIO DE TEXTO EN BOTON AL COMPRAR Y ANIMACION
+$(".btnCompra").click(function (e){
+    console.log(e.target.id);
+    $(this).text("EN CARRITO")
+            .css("background", "#ccc");
 
+            $(this).prev(".product__notification").fadeIn("slow")
+                .animate({top: "80px"},"slow")
+                .animate({left: "1300px"},"fast",function () { $(this).removeAttr('style'); });
+});
+
+}
+);
+
+//EVENTO AL HACER CLICK A COMPRAR
 function manejadorCompra(evento) {
     //determino el id del seleccionado
     //let seleccionado = evento.target.id;
@@ -73,7 +100,7 @@ function manejadorCompra(evento) {
         seleccionado.vender();
     } else {
         //encuentro la informacion del producto relacionado a ese ID
-    let producto = new Lentes(DATOS.find(objeto => objeto.id == evento.target.id));
+    let producto = new Lentes(listaDatos.find(objeto => objeto.id == evento.target.id));
     producto.vender();
     console.log(producto);
     //Incluyo en el carrito los productos seleccionados
@@ -188,7 +215,7 @@ function cantidadDOM(){
 
 //FUNCION PARA GUARDAR EN LOCALSTORAGE
 function saveToLocal(key, data) {
-    localStorage.clear();
+    //localStorage.clear();
     localStorage.setItem(key, JSON.stringify(data));
 }
 
@@ -230,24 +257,6 @@ function ImporteTotalDom(dato,datos) {
     padre2Ul.appendChild(nuevoli);
 }
 
-//OCULTO EL UL CON EL BOTON
-$("#btnMostrar").click(function(){
-    $("#listaImporte").slideToggle("normal")
-                    .css("background", "#ccc");
-})
-
-//CAMBIO DE TEXTO EN BOTON AL COMPRAR Y ANIMACION
-$(".btnCompra").click(function (e){
-    console.log(e.target.id);
-    $(this).text("EN CARRITO")
-            .css("background", "#ccc");
-
-            $(this).prev(".product__notification").fadeIn("slow")
-                .animate({top: "80px"},"slow")
-                .animate({left: "1300px"},"fast",function () { $(this).removeAttr('style'); });
-});
-
-
 //funcion para crear en elemento del DOM
 function crearElemento(dato) {
     let nuevoElemento = document.createElement("div");
@@ -281,25 +290,21 @@ function validarFormulario(evento) {
     
     console.log("for of");
         for(const campo of campos){
-        if(campo.value.length > 0){
+        if(campo.value.length > 0 ){
         console.log("id:" + campo.id, "Valor: " + campo.value);
-        saveToLocal(campo.id, campo.value)
+        saveToLocal(campo.id, campo.value);
         showDatos(campos[1].value);
         
     }else
         console.error(campo.id,"vacío")
     }
 };
-//NOTIFICACION DE ENVIO DE DATOS
+//NOTIFICACION DE ENVIO DE DATOS EN EL PIE DE FORMULARIO
 function showDatos (dato) { 
-/* $("#btn-direccion").click(function (e) { 
-    e.preventDefault(); */
     $(".divDatos").empty();
     $(".divDatos").append(`<h5>Sr/Sra ${dato}- Datos de envío Guardados!!!</h5>`).fadeOut(4000)
                         .css("border", "2px dashed orange");
-    
-//});
- }
+}
 
 //NOTIFICAR DISPONIBILIDAD POR CONSOLA
 /* for (const iterador of productos) {
