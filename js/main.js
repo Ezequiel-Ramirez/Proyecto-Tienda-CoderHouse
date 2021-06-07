@@ -9,11 +9,18 @@ class Lentes {
         this.cantidad = 1;
         this.precio = parseFloat(datos.precio);
         this.vendido = false;
+        this.stock = datos.stock;
     }
-    // METODO PARA VENDER EL PRODUCTO
+    // METODO PARA VENDER EL PRODUCTO Y DESCONTAR STOCK
     vender() {
-        this.vendido = true;
-        return this.vendido;
+        if(this.stock > 0){
+            this.stock = this.stock - 1;
+            console.log(this.stock);
+        }else{
+            alert("SIN STOCK LO SIENTO");
+        }
+        /* this.vendido = true;
+        return this.vendido; */
     }
     // METODO PARA VERIFICAR QUE EL PRODUCTO ESTE DISPONIBLE PARA LA VENTA
     estaDisponible() {
@@ -59,13 +66,17 @@ for (const boton of botones) {
 
 function manejadorCompra(evento) {
     //determino el id del seleccionado
-    let seleccionado = evento.target.id;
-    //encuentro la informacion del producto relacionado a ese ID
-    let producto = new Lentes(DATOS.find(objeto => objeto.id == seleccionado));
+    //let seleccionado = evento.target.id;
+    //Chequeo que no este en el carrito sino lo agrego al carrito
+    let seleccionado =CARRITO.find(objeto => objeto.id == evento.target.id);
+    if (seleccionado != undefined) {
+        seleccionado.vender();
+    } else {
+        //encuentro la informacion del producto relacionado a ese ID
+    let producto = new Lentes(DATOS.find(objeto => objeto.id == evento.target.id));
+    producto.vender();
+    console.log(producto);
     //Incluyo en el carrito los productos seleccionados
-    //console.log(seleccionado);
-    //console.log(producto);
-    
     CARRITO.push(producto);
     console.log(CARRITO);
     //guardarLocal(CARRITO);
@@ -82,7 +93,9 @@ function manejadorCompra(evento) {
     //puedo usar los metodos de la clase ya una vez hecho el new Lentes:
     //CARRITO[0].estaDisponible();
     //console.log(CARRITO[0].vendido);
-}
+    }
+    
+};
 
 
 function manejadorEliminar(evento) {
@@ -265,17 +278,28 @@ function validarFormulario(evento) {
     console.log(evento);
     console.log(evento.timeStamp);
     console.log(campos);
-
+    
     console.log("for of");
         for(const campo of campos){
         if(campo.value.length > 0){
         console.log("id:" + campo.id, "Valor: " + campo.value);
         saveToLocal(campo.id, campo.value)
+        showDatos(campos[1].value);
+        
     }else
         console.error(campo.id,"vacío")
     }
 };
-
+//NOTIFICACION DE ENVIO DE DATOS
+function showDatos (dato) { 
+/* $("#btn-direccion").click(function (e) { 
+    e.preventDefault(); */
+    $(".divDatos").empty();
+    $(".divDatos").append(`<h5>Sr/Sra ${dato}- Datos de envío Guardados!!!</h5>`).fadeOut(4000)
+                        .css("border", "2px dashed orange");
+    
+//});
+ }
 
 //NOTIFICAR DISPONIBILIDAD POR CONSOLA
 /* for (const iterador of productos) {
