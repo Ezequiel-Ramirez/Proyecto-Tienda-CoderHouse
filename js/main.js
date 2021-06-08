@@ -47,11 +47,15 @@ const rec = a => a + (a * 0.1);
 //MUESTRO LOS PRUDUCTOS POR DOM
 //elijo el sector del html
 let contenedorProduct = document.getElementById("container-productos");
+//EJECUTO METODO READY PARA CARGAR UNA VEZ ME DIGA QUE ESTA TODO OK
+$(document).ready(function () {  
 
 //OBTENGO DATOS DESDE JSON - PETISION ASINCRONICA
 $.getJSON("data/data.json", function (respuesta, estado) {
         console.log(respuesta);
-        listaDatos = respuesta;
+        console.log(estado);
+        if (estado === "success") {
+            listaDatos = respuesta;
 
 //ARRAY DE OBJETOS INSTANCIADOS
 const productos = [];
@@ -86,9 +90,11 @@ $(".btnCompra").click(function (e){
                 .animate({top: "80px"},"slow")
                 .animate({left: "1300px"},"fast",function () { $(this).removeAttr('style'); });
 });
-
+            
+        }
 }
 );
+});
 
 //EVENTO AL HACER CLICK A COMPRAR
 function manejadorCompra(evento) {
@@ -312,7 +318,7 @@ $.post("https://jsonplaceholder.typicode.com/posts", usuario, function (response
         console.log(response);
         console.log(status);
         //muestro confirmacion de envio en el formulario
-    }).done(showDatos("input[name='name'].val()"));
+    }).done(showDatos(usuario.apellido));
 
     let campos = miFormulario.elements;
     console.log(evento);
@@ -334,7 +340,7 @@ $.post("https://jsonplaceholder.typicode.com/posts", usuario, function (response
 //NOTIFICACION DE ENVIO DE DATOS EN EL PIE DE FORMULARIO
 function showDatos (dato) { 
     $(".divDatos").empty();
-    $(".divDatos").append(`<h5>Sr/Sra ${dato}- Datos de envío Guardados!!!</h5>`).fadeOut(4000)
+    $(".divDatos").append(`<h5>Sr/Sra ${dato} - Datos de envío Guardados!!!</h5>`).fadeOut(4000)
                         .css("border", "2px dashed orange");
 }
 
