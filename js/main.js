@@ -48,7 +48,7 @@ const rec = a => a + (a * 0.1);
 //elijo el sector del html
 let contenedorProduct = document.getElementById("container-productos");
 
-//OBTENGO DATOS DESDE JSON
+//OBTENGO DATOS DESDE JSON - PETISION ASINCRONICA
 $.getJSON("data/data.json", function (respuesta, estado) {
         console.log(respuesta);
         listaDatos = respuesta;
@@ -116,7 +116,14 @@ function manejadorCompra(evento) {
     calcularTotal();
     calcularTotalCantidad();
     ImporteTotalDom(total, totalcantidad);
-    
+
+    //ENVIO PETICION ASINCRONICA AL SERVIDOR
+    /* $.post("https://jsonplaceholder.typicode.com/posts", producto,(data, status) => {
+        console.log(data);
+        console.log(status);
+        }
+    ); */
+    //envioAjax(carritoStorage);
     //puedo usar los metodos de la clase ya una vez hecho el new Lentes:
     //CARRITO[0].estaDisponible();
     //console.log(CARRITO[0].vendido);
@@ -228,7 +235,17 @@ function getFromLocal(key) {
         carritoStorage.push(new Lentes(objetos));
     }
 }
-
+//FUNCION PARA ENVIAR DATOS ASINCRONICOS AL SERVIDOR
+function envioAjax(dato) {
+    for (const iterator of dato) {
+        $.post("https://jsonplaceholder.typicode.com/posts", iterator,(data, status) => {
+        console.log(data);
+        console.log(status);
+        }
+    );
+    }
+    
+}
 //FUNCION PARA SUMA TOTAL DE IMPORTE
 function calcularTotal(){
     total = 0;
@@ -283,17 +300,32 @@ miFormulario.addEventListener("submit", validarFormulario);
 
 function validarFormulario(evento) {
     evento.preventDefault();
+//declaro variable con datos a enviar al servidor con peticion
+var usuario = {
+            nombre: $("input[name='name']").val(),
+            apellido: $("input[name='apell']").val(),
+            telefono: $("input[name='tel']").val(),
+            direccion: $("input[name='place']").val(),
+}
+//envio datos al servidor - peticion asincronica
+$.post("https://jsonplaceholder.typicode.com/posts", usuario, function (response, status) {
+        console.log(response);
+        console.log(status);
+        //muestro confirmacion de envio en el formulario
+    }).done(showDatos("input[name='name'].val()"));
+
     let campos = miFormulario.elements;
     console.log(evento);
     console.log(evento.timeStamp);
     console.log(campos);
+    //envio peticion  asincronica al servidor de mi carrito
+    envioAjax(carritoStorage);
     
     console.log("for of");
         for(const campo of campos){
         if(campo.value.length > 0 ){
         console.log("id:" + campo.id, "Valor: " + campo.value);
         saveToLocal(campo.id, campo.value);
-        showDatos(campos[1].value);
         
     }else
         console.error(campo.id,"vacío")
