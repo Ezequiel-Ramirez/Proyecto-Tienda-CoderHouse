@@ -307,28 +307,35 @@ function validarFormulario(evento) {
         telefono: $("input[name='tel']").val(),
         direccion: $("input[name='place']").val(),
     }
-    //envio datos al servidor - peticion asincronica
-    $.post("https://jsonplaceholder.typicode.com/posts", usuario, function (response, status) {
-        console.log(response);
-        console.log(status);
-        //muestro confirmacion de envio en el formulario
-    }).done(showDatos(usuario.apellido));
+
 
     let campos = miFormulario.elements;
     console.log(evento);
     console.log(evento.timeStamp);
     console.log(campos);
-    //envio peticion  asincronica al servidor de mi carrito
-    envioAjax(carritoStorage);
+
 
     console.log("for of");
     for (const campo of campos) {
+
+
         if (campo.value.length > 0) {
             console.log("id:" + campo.id, "Valor: " + campo.value);
             saveToLocal(campo.id, campo.value);
+            //envio datos al servidor - peticion asincronica
+            $.post("https://jsonplaceholder.typicode.com/posts", usuario, function (response, status) {
+                console.log(response);
+                console.log(status);
+                //muestro confirmacion de envio en el formulario
+            }).done(showDatos(usuario.apellido));
+            //envio peticion  asincronica al servidor de mi carrito
+            envioAjax(carritoStorage);
 
         } else
             console.error(campo.id, "vacío")
+
+
+
     }
 };
 //NOTIFICACION DE ENVIO DE DATOS EN EL PIE DE FORMULARIO
