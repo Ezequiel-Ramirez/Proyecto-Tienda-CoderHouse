@@ -8,7 +8,7 @@ Luego de varias selecciones puede recorrer el sector carrito viendo todos los pr
 Para finalizar una vez completado los datos de formulario se indica que su solicitud fue generada con éxito. Tiene validadciones en caso de no completar algunos datos inclusive para informar al usuario.
 
 ## Dependencias
-Se hace uso de Bootrstrap en pequeñas ocaciones y luego una impronta personal para definir estilo propio.
+Se hace uso de Bootstrap en pequeñas ocaciones y luego una impronta personal para definir estilo propio.
 Se utiliza el localStorage para guardado temporal de datos del carrito y manejo de stock/cantidades.
 
 ## Contribuyendo
